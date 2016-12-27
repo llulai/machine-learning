@@ -42,14 +42,16 @@ features = data.drop('MEDV', axis = 1)
 print "Boston housing dataset has {} data points with {} variables each.".format(*data.shape)
 ```
 
-    C:\Users\Admin\Miniconda2\lib\site-packages\sklearn\cross_validation.py:44: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+    /Users/llulai/VirtEnv/ml/lib/python2.7/site-packages/sklearn/cross_validation.py:44: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
       "This module will be removed in 0.20.", DeprecationWarning)
-    C:\Users\Admin\Miniconda2\lib\site-packages\sklearn\learning_curve.py:23: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the functions are moved. This module will be removed in 0.20
-      DeprecationWarning)
-    
+
 
     Boston housing dataset has 489 data points with 4 variables each.
-    
+
+
+    /Users/llulai/VirtEnv/ml/lib/python2.7/site-packages/sklearn/learning_curve.py:23: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the functions are moved. This module will be removed in 0.20
+      DeprecationWarning)
+
 
 ## Data Exploration
 In this first section of this project, you will make a cursory investigation about the Boston housing data and provide your observations. Familiarizing yourself with the data through an explorative process is a fundamental practice to help you better understand and justify your results.
@@ -66,19 +68,19 @@ In the code cell below, you will need to implement the following:
 
 ```python
 # TODO: Minimum price of the data
-minimum_price = prices.min()
+minimum_price = np.min(prices)
 
 # TODO: Maximum price of the data
-maximum_price = prices.max()
+maximum_price = np.max(prices)
 
 # TODO: Mean price of the data
-mean_price = prices.mean()
+mean_price = np.mean(prices)
 
 # TODO: Median price of the data
-median_price = prices.median()
+median_price = np.median(prices)
 
 # TODO: Standard deviation of prices of the data
-std_price = prices.std()
+std_price = np.std(prices)
 
 # Show the calculated statistics
 print "Statistics for Boston housing dataset:\n"
@@ -95,8 +97,8 @@ print "Standard deviation of prices: ${:,.2f}".format(std_price)
     Maximum price: $1,024,800.00
     Mean price: $454,342.94
     Median price $438,900.00
-    Standard deviation of prices: $165,340.28
-    
+    Standard deviation of prices: $165,171.13
+
 
 ### Question 1 - Feature Observation
 As a reminder, we are using three features from the Boston housing dataset: `'RM'`, `'LSTAT'`, and `'PTRATIO'`. For each data point (neighborhood):
@@ -164,7 +166,7 @@ print "Model has a coefficient of determination, R^2, of {:.3f}.".format(score)
 ```
 
     Model has a coefficient of determination, R^2, of 0.923.
-    
+
 
 **Answer:** I think the model did a good job, since the predictions are quite close to the true values. This also can be seen taking a look into the R^2 value, wich is over 0.9, so the correlation between the predictions and true values is really high.
 
@@ -190,7 +192,7 @@ print "Training and testing split was successful."
 ```
 
     Training and testing split was successful.
-    
+
 
 ### Question 3 - Training and Testing
 *What is the benefit to splitting a dataset into some ratio of training and testing subsets for a learning algorithm?*  
@@ -242,7 +244,7 @@ vs.ModelComplexity(X_train, y_train)
 *When the model is trained with a maximum depth of 1, does the model suffer from high bias or from high variance? How about when the model is trained with a maximum depth of 10? What visual cues in the graph justify your conclusions?*  
 **Hint:** How do you know when a model is suffering from high bias or high variance?
 
-**Answer: ** When the model is simple (max depth = 1) it suffers from high bias, this can be seen as low training and validation scores. The more simple is the model, the lower are the scores, this means that simple models are not able to accurately predict the value of the houses even if we have an adequate sample size. While the most complex model (max depth + 10) suffers from high variance, this can be seen cause the shaded region for the validation score is thicker than when it is more simple; when we have more complex models the end of the branches have fewer examples, cause the desicion tree is much wider, so a way to reduce variance might be to have a bigger sample. 
+**Answer: ** When the model is simple (max depth = 1) it suffers from high bias, this can be seen as low training and validation scores. The more simple is the model, the lower are the scores, this means that simple models are not able to accurately predict the value of the houses even if we have an adequate sample size. While the most complex model (max depth = 10) suffers from high variance, this can be seen cause the difference in score between training and validation data increases as we increase the max depth parameter; when we have more complex models the end of the branches have fewer examples, cause the desicion tree is much wider, so a way to reduce variance might be to have a bigger sample. 
 
 ### Question 6 - Best-Guess Optimal Model
 *Which maximum depth do you think results in a model that best generalizes to unseen data? What intuition lead you to this answer?*
@@ -257,7 +259,7 @@ In this final section of the project, you will construct a model and make a pred
 ### Question 7 - Grid Search
 *What is the grid search technique and how it can be applied to optimize a learning algorithm?*
 
-**Answer: ** It is a way of programatically test multiple values for different parameters, in this way, you don't have to manually check and analyze what parameters work best for fitting the model.
+**Answer: ** It is a way of programatically test multiple values for different parameters, in this way, you don't have to manually check and analyze what parameters work best for fitting the model. Also, by selecting these parameters a priori the model is more prone to don't be the optimal one. The grid search procedure helps to find the appropriate parameters for the model. The problem though is that these parameters might be creating an overfitted model.
 
 ### Question 8 - Cross-Validation
 *What is the k-fold cross-validation training technique? What benefit does this technique provide for grid search when optimizing a model?*  
@@ -301,13 +303,13 @@ def fit_model(X, y):
     regressor = DecisionTreeRegressor()
 
     # TODO: Create a dictionary for the parameter 'max_depth' with a range from 1 to 10
-    params = {'max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+    params = {'max_depth': range(1,11)}
 
     # TODO: Transform 'performance_metric' into a scoring function using 'make_scorer' 
     scoring_fnc = make_scorer(performance_metric)
 
     # TODO: Create the grid search object
-    grid = GridSearchCV(regressor, param_grid=params, scoring=scoring_fnc)
+    grid = GridSearchCV(regressor, param_grid=params, scoring=scoring_fnc, cv=cv_sets)
 
     # Fit the grid search object to the data to compute the optimal model
     grid = grid.fit(X, y)
@@ -334,7 +336,7 @@ print "Parameter 'max_depth' is {} for the optimal model.".format(reg.get_params
 ```
 
     Parameter 'max_depth' is 4 for the optimal model.
-    
+
 
 **Answer: ** It has a maximum depth of 4, it is within the range I gave in question 6, the main difference though is that the scoring function takes only the bias into consideartion, not the variance, it seems that if we select a maximum depth of 4 we might have a slightly higher bias, but also a lower variance.
 
@@ -366,7 +368,7 @@ for i, price in enumerate(reg.predict(client_data)):
     Predicted selling price for Client 1's home: $316,718.18
     Predicted selling price for Client 2's home: $231,730.43
     Predicted selling price for Client 3's home: $913,500.00
-    
+
 
 **Answer: ** For each client I'd recomend to sell their house at some value near to the predicted price. If we consider the descriptive statistics calculated before, we can see that these values are within the range, although in order to see in what part of the distribution of house prices they are some more values need to be calculated (i.e. min, average, max number of rooms, neighborhood poverty level and student-teacher ratio).
 
@@ -378,19 +380,19 @@ An optimal model is not necessarily a robust model. Sometimes, a model is either
 vs.PredictTrials(features, prices, fit_model, client_data)
 ```
 
-    Trial 1: $411,000.00
-    Trial 2: $411,417.39
+    Trial 1: $391,183.33
+    Trial 2: $419,700.00
     Trial 3: $415,800.00
-    Trial 4: $428,316.00
-    Trial 5: $413,334.78
+    Trial 4: $420,622.22
+    Trial 5: $418,377.27
     Trial 6: $411,931.58
     Trial 7: $399,663.16
     Trial 8: $407,232.00
-    Trial 9: $402,531.82
+    Trial 9: $351,577.61
     Trial 10: $413,700.00
     
-    Range in prices: $28,652.84
-    
+    Range in prices: $69,044.61
+
 
 ### Question 11 - Applicability
 *In a few sentences, discuss whether the constructed model should or should not be used in a real-world setting.*  
@@ -400,7 +402,7 @@ vs.PredictTrials(features, prices, fit_model, client_data)
 - *Is the model robust enough to make consistent predictions?*
 - *Would data collected in an urban city like Boston be applicable in a rural city?*
 
-**Answer: ** The model is quite robust, the predictions for different training and testing samples only differs 5% from the average. Nevertheless there are some problems with the source of the data, it seems that there are several features that are beign left out of the model, such as material of the house, squared feet, stories and so on that might be able to give a much more accurate prediction. If we use this data to make predictions nowadays it is very likely that it wont be accurate (use this sample as training example and use nowadays data as testing example probably would give us the answer).
+**Answer: ** The model doesn't seem to be very robust, it has a lot of variance when different training and testing samples are used. Furthermore there are some problems with the source of the data, it seems that there are several features that are beign left out of the model, such as material of the house, squared feet, stories and so on that might be able to give a much more accurate prediction. If we use this data to make predictions nowadays it is very likely that it wont be accurate (use this sample as training example and use nowadays data as testing example probably would give us the answer).
 
 All in all, I think it is not a very good idea to use this dataset today in a real-world setting.
 
