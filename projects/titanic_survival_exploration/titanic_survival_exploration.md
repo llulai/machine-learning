@@ -404,7 +404,7 @@ def predictions_2(data):
         # and write your prediction conditions here
         if passenger['Sex'] == 'female':
             predictions.append(1)
-        elif passenger['Sex'] == 'male' and passenger['Age'] <= 10:
+        elif passenger['Sex'] == 'male' and passenger['Age'] < 10:
             predictions.append(1)
         else:
             predictions.append(0)
@@ -425,7 +425,7 @@ predictions = predictions_2(data)
 print accuracy_score(outcomes, predictions)
 ```
 
-    Predictions have an accuracy of 79.24%.
+    Predictions have an accuracy of 79.35%.
 
 
 **Answer**: We would be right 79.24% of the time, slightly better than before.
