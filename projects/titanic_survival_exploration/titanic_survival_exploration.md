@@ -460,34 +460,6 @@ def predictions_3(data):
         
         # Remove the 'pass' statement below 
         # and write your prediction conditions here
-        if passenger['Sex'] == 'female' and passenger['Pclass'] <= 2:
-            predictions.append(1)
-        elif passenger['Sex'] == 'male' and passenger['Age'] <= 10 and passenger['Pclass'] <3:
-            predictions.append(1)
-        elif passenger['Sex'] == 'male' and  30 < passenger['Age'] <= 40 and passenger['Pclass'] == 1:
-            predictions.append(1)
-        elif passenger['Sex'] == 'female' and passenger['Age'] < 20 and passenger['Pclass'] == 3:
-            predictions.append(1)
-        else:
-            predictions.append(0)
-    
-    # Return our predictions
-    return pd.Series(predictions)
-
-# Make the predictions
-predictions = predictions_3(data)
-```
-
-
-```python
-def predictions_3(data):
-    """ Model with multiple features. Makes a prediction with an accuracy of at least 80%. """
-    
-    predictions = []
-    for _, passenger in data.iterrows():
-        
-        # Remove the 'pass' statement below 
-        # and write your prediction conditions here
         if (passenger['Sex'] == 'female' and passenger['Pclass'] < 3)\
         or (passenger['Sex'] == 'female' and passenger['Pclass'] == 3 and passenger['Age'] < 20)\
         or (passenger['Sex'] == 'male' and passenger['Pclass'] < 3 and passenger['Age'] <= 10)\
