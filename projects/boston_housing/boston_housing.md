@@ -42,16 +42,16 @@ features = data.drop('MEDV', axis = 1)
 print "Boston housing dataset has {} data points with {} variables each.".format(*data.shape)
 ```
 
-    /Users/llulai/VirtEnv/ml/lib/python2.7/site-packages/sklearn/cross_validation.py:44: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+    C:\Users\Admin\Miniconda2\lib\site-packages\sklearn\cross_validation.py:44: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
       "This module will be removed in 0.20.", DeprecationWarning)
-
+    
 
     Boston housing dataset has 489 data points with 4 variables each.
+    
 
-
-    /Users/llulai/VirtEnv/ml/lib/python2.7/site-packages/sklearn/learning_curve.py:23: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the functions are moved. This module will be removed in 0.20
+    C:\Users\Admin\Miniconda2\lib\site-packages\sklearn\learning_curve.py:23: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the functions are moved. This module will be removed in 0.20
       DeprecationWarning)
-
+    
 
 ## Data Exploration
 In this first section of this project, you will make a cursory investigation about the Boston housing data and provide your observations. Familiarizing yourself with the data through an explorative process is a fundamental practice to help you better understand and justify your results.
@@ -98,7 +98,7 @@ print "Standard deviation of prices: ${:,.2f}".format(std_price)
     Mean price: $454,342.94
     Median price $438,900.00
     Standard deviation of prices: $165,171.13
-
+    
 
 ### Question 1 - Feature Observation
 As a reminder, we are using three features from the Boston housing dataset: `'RM'`, `'LSTAT'`, and `'PTRATIO'`. For each data point (neighborhood):
@@ -166,7 +166,7 @@ print "Model has a coefficient of determination, R^2, of {:.3f}.".format(score)
 ```
 
     Model has a coefficient of determination, R^2, of 0.923.
-
+    
 
 **Answer:** I think the model did a good job, since the predictions are quite close to the true values. This also can be seen taking a look into the R^2 value, wich is over 0.9, so the correlation between the predictions and true values is really high.
 
@@ -192,7 +192,7 @@ print "Training and testing split was successful."
 ```
 
     Training and testing split was successful.
-
+    
 
 ### Question 3 - Training and Testing
 *What is the benefit to splitting a dataset into some ratio of training and testing subsets for a learning algorithm?*  
@@ -265,8 +265,8 @@ In this final section of the project, you will construct a model and make a pred
 *What is the k-fold cross-validation training technique? What benefit does this technique provide for grid search when optimizing a model?*  
 **Hint:** Much like the reasoning behind having a testing set, what could go wrong with using grid search without a cross-validated set?
 
-**Answer: ** K-fold cross-validation is a way to split the data into different training and testing sets, in this way all observations can be used as training and testing set, if the scores for the different iterations are similar it means that is unlikely that the model is overfitted.
-By using K-fold cross-validation to assess the performance of models with different parameters given by the grid search technique we rest assured that the good performance of any particular model it is not due to overfitting by selection of parameters that deliver a high score for a particular sample.
+**Answer: ** K-fold cross-validation is a way to split all available data into k sets. These sets will be used both as training and testing sets in k iterations, in the first one, the first set will be used as test data and the remaining ones as training, in the second iteration, the second set will be used as test data and the remaining as training data, this process will continue until all sets have been used as testing data.
+This process takes around k-times longer than usual, cause we are fitting k different models. The prediction will be the average of the prediction from k models. In this way we reduce the risk of overfiting the model by parameter selection (this risk is higher if we use grid search for parameter selection, cause will select the ones that yield the best performance for the sample).
 
 ### Implementation: Fitting a Model
 Your final implementation requires that you bring everything together and train a model using the **decision tree algorithm**. To ensure that you are producing an optimized model, you will train the model using the grid search technique to optimize the `'max_depth'` parameter for the decision tree. The `'max_depth'` parameter can be thought of as how many questions the decision tree algorithm is allowed to ask about the data before making a prediction. Decision trees are part of a class of algorithms called *supervised learning algorithms*.
@@ -336,9 +336,9 @@ print "Parameter 'max_depth' is {} for the optimal model.".format(reg.get_params
 ```
 
     Parameter 'max_depth' is 4 for the optimal model.
+    
 
-
-**Answer: ** It has a maximum depth of 4, it is within the range I gave in question 6, the main difference though is that the scoring function takes only the bias into consideartion, not the variance, it seems that if we select a maximum depth of 4 we might have a slightly higher bias, but also a lower variance.
+**Answer: ** It has a maximum depth of 4, it is within the range I gave in question 6, the main difference though is that the scoring function takes only the bias into consideartion, not the variance, it seems that if we select a maximum depth of 4 we might have a slightly higher bias, but also a lower variance. (Regarding the previous review, I say that it takes into consideration only the bias cause the score function is defined in this way, the performance metric we use is R^2, which will select the model wil higher validation score, hence, the model with less bias).
 
 ### Question 10 - Predicting Selling Prices
 Imagine that you were a real estate agent in the Boston area looking to use this model to help price homes owned by your clients that they wish to sell. You have collected the following information from three of your clients:
@@ -363,14 +363,38 @@ client_data = [[5, 17, 15], # Client 1
 # Show predictions
 for i, price in enumerate(reg.predict(client_data)):
     print "Predicted selling price for Client {}'s home: ${:,.2f}".format(i+1, price)
+
+    
+from matplotlib import pyplot as plt
+clients = np.transpose(client_data)
+pred = reg.predict(client_data)
+
+for i, feat in enumerate(['RM', 'LSTAT', 'PTRATIO']):
+    plt.scatter(features[feat], prices, alpha=0.25, c=prices)
+    plt.scatter(clients[i], pred, color='black', marker='x', linewidths=2)
+    plt.xlabel(feat)
+    plt.ylabel('MEDV')
+    plt.show()
 ```
 
     Predicted selling price for Client 1's home: $316,718.18
     Predicted selling price for Client 2's home: $231,730.43
     Predicted selling price for Client 3's home: $913,500.00
+    
 
 
-**Answer: ** For each client I'd recomend to sell their house at some value near to the predicted price. If we consider the descriptive statistics calculated before, we can see that these values are within the range, although in order to see in what part of the distribution of house prices they are some more values need to be calculated (i.e. min, average, max number of rooms, neighborhood poverty level and student-teacher ratio).
+![png](output_41_1.png)
+
+
+
+![png](output_41_2.png)
+
+
+
+![png](output_41_3.png)
+
+
+**Answer: ** For each client I'd recomend to sell their house at some value near to the predicted price. If we consider the descriptive statistics calculated before, we can see that these values are within the range. Now for every feature, we see that if we graph the price and the feature, it is within the trend. The more rooms the higher the price, where each house falls in the trend, same thing happens with neightborhood poverty level and student-teacher ratio.
 
 ### Sensitivity
 An optimal model is not necessarily a robust model. Sometimes, a model is either too complex or too simple to sufficiently generalize to new data. Sometimes, a model could use a learning algorithm that is not appropriate for the structure of the data given. Other times, the data itself could be too noisy or contain too few samples to allow a model to adequately capture the target variable — i.e., the model is underfitted. Run the code cell below to run the `fit_model` function ten times with different training and testing sets to see how the prediction for a specific client changes with the data it's trained on.
@@ -392,7 +416,7 @@ vs.PredictTrials(features, prices, fit_model, client_data)
     Trial 10: $413,700.00
     
     Range in prices: $69,044.61
-
+    
 
 ### Question 11 - Applicability
 *In a few sentences, discuss whether the constructed model should or should not be used in a real-world setting.*  
