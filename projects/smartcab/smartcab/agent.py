@@ -45,12 +45,10 @@ class LearningAgent(Agent):
             self.epsilon = 0
             self.alpha = 0
         else:
+            #self.epsilon -= 0.05
             self.epsilon = 0.99 ** self.t
             self.t += 1
             
-            #self.alpha = 1.0 / self.t
-            
-            #self.epsilon -= 0.05
 
         return None
 
@@ -127,9 +125,18 @@ class LearningAgent(Agent):
                 action = random.choice([None, 'forward', 'left', 'right'])
             else:
                 try:
+                    maxQ = self.get_maxQ(state)
+                    values = self.Q[str(state)].values()
                     
-                    inverse = [(value, key) for key, value in self.Q[str(state)].items()]
-                    action = max(inverse)[1]
+                    if sum(i == maxQ for i in values) > 1:
+                        choices = []
+                        for key in self.Q[str(state)].keys():
+                            if self.Q[str(state)][key] == maxQ:
+                                choices.append(key)
+                        action = random.choice(choices)
+                    else:
+                        inverse = [(value, key) for key, value in self.Q[str(state)].items()]
+                        action = max(inverse)[1]
                 except:
                     action = random.choice([None, 'forward', 'left', 'right'])
             
@@ -150,13 +157,10 @@ class LearningAgent(Agent):
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
         
-        maxQ = self.get_maxQ(state)
-        
-        self.Q[str(state)][action] = maxQ +  self.alpha * (reward - maxQ)
-        
-        #print 'alpha:', self.alpha
-        #print 'epsilon:', self.epsilon
-        #print 'states listed:', len(self.Q)
+        if self.learning:
+            oldQ = self.Q[str(state)][action]
+
+            self.Q[str(state)][action] = oldQ +  self.alpha * (reward - oldQ)
 
 
     def update(self):

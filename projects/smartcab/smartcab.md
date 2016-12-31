@@ -49,7 +49,7 @@ In a few sentences, describe what you observe during the simulation when running
 ```
 
 **Answer:** The smartcab is not moving at all, so the only positive reward that it gets is when idle on a red light. The negatives rewards are when dind't move and had a green light with no oncoming traffic.
-The light changing determines whether the agent receives a positive or a negative reward, if red, it receives a positive reward, while if green (and no oncoming traffic) it receives a negative reward.
+The light changing determines whether the agent receives a positive or a negative reward, if red, it receives a positive reward, while if green (and no oncoming traffic) it receives a negative reward. It is not clear what is the reward when it idles with green light and there is incoming traffic.
 
 ### Understand the Code
 In addition to understanding the world, it is also necessary to understand the code itself that governs how the world, simulation, and so on operate. Attempting to create a driving agent would be difficult without having at least explored the *"hidden"* devices that make everything work. In the `/smartcab/` top-level directory, there are two folders: `/logs/` (which will be used later) and `/smartcab/`. Open the `/smartcab/` folder and explore each Python file included, then answer the following question.
@@ -227,7 +227,7 @@ Using the visualization above that was produced from your default Q-Learning sim
 - *As the number of training trials increased, did the number of bad actions decrease? Did the average reward increase?*
 - *How does the safety and reliability rating compare to the initial driving agent?*
 
-A**Answer:** This algorithm is slightly better. At least it decreases bad actions taken consistently. The reward function also increases steadily over time, this means that the agent is making better decisions as it is learning. A linear decaying function doesn't make much sense though, the agent is not able to learn enough to find a good policy. In this case reliability increases, since it learns where to go quite quickly, but safety doesn't improve, since it still causing a good amount of traffic violations (around 15%).
+**Answer:** This algorithm is slightly better. At least it decreases bad actions taken consistently. The reward function also increases steadily over time, this means that the agent is making better decisions as it is learning. Even though it is represented accurately in the graph, the linear decaying function doesn't make much sense though, the agent is not able to learn enough to find a good policy, it has only 20 trials before start the testing. In this case reliability increases, since it learns where to go quite quickly, but safety doesn't improve, since it still causing a good amount of traffic violations (around 15%).
 
 -----
 ## Improve the Q-Learning Driving Agent
@@ -276,7 +276,7 @@ Using the visualization above that was produced from your improved Q-Learning si
 - *Would you say that the Q-Learner results show that your driving agent successfully learned an appropriate policy?*
 - *Are you satisfied with the safety and reliability ratings of the *Smartcab*?*
 
-**Answer:** First of all we can see that this agent learns for a much longer timeframe, and the 20 iterations that it performed before are not nearly enough to learn a good policy. We can see that after around 500 iterations it has a pretty good policy, after we have some spikes, probably cause it is visiting unseen states. We can also notice that the average reward converges towards two, which means that the policy is consistent. We can also understand that its rate of reliability is quite high, although it still fairly unstable. Finally we can say that it is a good smartcab, it doesn't commit any traffic violation and the reliability is quite high.
+**Answer:** First of all we can see that this agent learns for a much longer timeframe, and the 20 iterations that it performed before are not nearly enough to learn a good policy. As it can be inferred from the exploration-learning factor graph, the decaying function used for epsilon is e = 1/t. We can see that after around 500 iterations it has a pretty good policy, after we have some spikes, probably cause it is visiting unseen states. We can also notice that the average reward converges towards two, which means that the policy is consistent, the tolerance rate used was 0.00005 wich ends up in about 1,000 training trials. We can also understand that its rate of reliability is quite high, although it still fairly unstable. Finally we can say that it is a good smartcab, it doesn't commit any traffic violation and the reliability is quite high.
 
 ### Define an Optimal Policy
 
@@ -312,7 +312,8 @@ Curiously, as part of the Q-Learning algorithm, you were asked to **not** use th
 ### Optional Question 9
 *There are two characteristics about the project that invalidate the use of future rewards in the Q-Learning algorithm. One characteristic has to do with the *Smartcab* itself, and the other has to do with the environment. Can you figure out what they are and why future rewards won't work for this project?*
 
-**Answer:** The one about the environment is that it is stochastic, the state you'll be in three or four steps from now doesn't change because of the actions taken, but the actions taken by every single agent (dummies).
+**Answer:** Regarding the environment, there is not an 'optimal path' to destination, since it changes on every trial, so if we considered future rewards, we would try to be teaching the agent an optimal path to destination, and since it will change every time, it would mess up the policy.
+Regarding the cab, since it doesn't really know where the destination point is (it only knows where to head to, and it will consider East-West direction first), it would mess up with the policy if we considered future rewards cause 
 
 > **Note**: Once you have completed all of the code implementations and successfully answered each question above, you may finalize your work by exporting the iPython Notebook as an HTML document. You can do this by using the menu above and navigating to  
 **File -> Download as -> HTML (.html)**. Include the finished document along with this notebook as your submission.
