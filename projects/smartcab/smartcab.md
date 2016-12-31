@@ -312,8 +312,7 @@ Curiously, as part of the Q-Learning algorithm, you were asked to **not** use th
 ### Optional Question 9
 *There are two characteristics about the project that invalidate the use of future rewards in the Q-Learning algorithm. One characteristic has to do with the *Smartcab* itself, and the other has to do with the environment. Can you figure out what they are and why future rewards won't work for this project?*
 
-**Answer:** Regarding the environment, there is not an 'optimal path' to destination, since it changes on every trial, so if we considered future rewards, we would try to be teaching the agent an optimal path to destination, and since it will change every time, it would mess up the policy.
-Regarding the cab, since it doesn't really know where the destination point is (it only knows where to head to, and it will consider East-West direction first), it would mess up with the policy if we considered future rewards cause 
+**Answer:**
 
 > **Note**: Once you have completed all of the code implementations and successfully answered each question above, you may finalize your work by exporting the iPython Notebook as an HTML document. You can do this by using the menu above and navigating to  
 **File -> Download as -> HTML (.html)**. Include the finished document along with this notebook as your submission.
