@@ -227,7 +227,11 @@ Using the visualization above that was produced from your default Q-Learning sim
 - *As the number of training trials increased, did the number of bad actions decrease? Did the average reward increase?*
 - *How does the safety and reliability rating compare to the initial driving agent?*
 
-**Answer:** This algorithm is slightly better. At least it decreases bad actions taken consistently. The reward function also increases steadily over time, this means that the agent is making better decisions as it is learning. Even though it is represented accurately in the graph, the linear decaying function doesn't make much sense though, the agent is not able to learn enough to find a good policy, it has only 20 trials before start the testing. In this case reliability increases, since it learns where to go quite quickly, but safety doesn't improve, since it still causing a good amount of traffic violations (around 15%).
+**Answer:** 
+* The rate of traffic violations is considerably lower, around 25%, also average reward is steadily increasing, if we look at reliability rate it is also quite higher in average, so the observations are not really similar.
+* The agent went throug twenty trials before testing, the same number of the one without learning. That number is fine since epsilon is decreasing 0.05 every training and the tolerance is set to 0.05.
+* Yes, we can see a steady decrease of number of violations, in only twenty tirals it decreases almost by half. We can see that average reward follows the same rate, growing from -3.5 to almost -1.0.
+* Safety and reliability rating don't seem to be really different, I think this is due mainly to the number of trials, since it is the same, the agent is not capable of learning much more.
 
 -----
 ## Improve the Q-Learning Driving Agent
@@ -276,7 +280,13 @@ Using the visualization above that was produced from your improved Q-Learning si
 - *Would you say that the Q-Learner results show that your driving agent successfully learned an appropriate policy?*
 - *Are you satisfied with the safety and reliability ratings of the *Smartcab*?*
 
-**Answer:** First of all we can see that this agent learns for a much longer timeframe, and the 20 iterations that it performed before are not nearly enough to learn a good policy. As it can be inferred from the exploration-learning factor graph, the decaying function used for epsilon is e = 1/t. We can see that after around 500 iterations it has a pretty good policy, after we have some spikes, probably cause it is visiting unseen states. We can also notice that the average reward converges towards two, which means that the policy is consistent, the tolerance rate used was 0.00005 wich ends up in about 1,000 training trials. We can also understand that its rate of reliability is quite high, although it still fairly unstable. Finally we can say that it is a good smartcab, it doesn't commit any traffic violation and the reliability is quite high.
+**Answer:** 
+* The decaiying function is e = 1 / t.
+* The agent went under 1,000 trainings approximately.
+* Epsilon tolerance was 0.00005 in order to have the agent run a large number of trials before going to test phase. Alpha was in default, since trying different values didn't show any improvement.
+* It is much better, the number of traffic violations decreases to nearly 0, average reward increases up to 2 and reliability rate is consistently between 90% and 100%.
+* Clearly the agent shows that it learned a good policy given that it doens't commit traffic violations and reaches the destination within the timeframe in an appropriate number of trials during test phase.
+* I'm pleased with the safety and reliability rates of the smartcab, since it had really good performance with an appropriate number of training trials.
 
 ### Define an Optimal Policy
 
@@ -304,6 +314,15 @@ Another state would be when waypoint is right, I have red light and no oncoming,
  -- left : -4.05
  
  In both cases the policy was right
+ 
+ I found one state where the policy is suboptimal, when the waypoint is forward, the light is green and it has a car on the right wanting to go to its right.
+('forward', {'light': 'green', 'oncoming': 'right', 'right': 'left', 'left': 'right'})
+ -- forward : 0.00
+ -- right : 0.00
+ -- None : -2.94
+ -- left : -10.48
+ 
+ In this case the agent will randomly pick between going forward or right, if it picks forward it will cause an accident, while if it goes right it might go further from the destination point.
 
 -----
 ### Optional: Future Rewards - Discount Factor, `'gamma'`
