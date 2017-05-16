@@ -13814,7 +13814,7 @@ SUVORK5CYII=
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong>
 We can see that Grocery and Detergents seem to be highly correlated, also milk and Deternets, as well as Milk and Grocery. Delicatessen doesn't seem to be highly correlated to any other variable, which lead me to think that it is relevant to predict the kind of customer that we have.
-Looking at the distribution of the variables, we can see that all of them are skewed to the left, hence no feature is normaly distributed.</p>
+Looking at the distribution of the variables, we can see that all of them are positively skewed, hence no feature is normaly distributed.</p>
 
 </div>
 </div>
@@ -20727,10 +20727,10 @@ tkMhBAAAAKDtUAgBAAAAaDv/HyTdD102Sd2jAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong>
-For sample 0: If we look at the data from the table at the begining of the notebook, we can see that the value for Fresh is closer to Segment 0, Milk to Segment 1, Grocery to Segment 1,  Frozen to Segment 0, Detergent to Segment 1 and Delicatessen to Segment 1. So in general I would assign it to segment 1.</p>
-<p>For sample 1: I would say, 0, 1, 1, 0, 1, 1. So I would put it in one.</p>
-<p>For sample 2: 0, 0, 0, 0, 0, 1. So I would put it on zero.</p>
+<p><strong>Answer:</strong></p>
+<p>There are two clusters, the features that they differ the most are all but Delicatessen.
+The first segment (Segment 0) looks like they expenses are focused on food, specially Fresh and Frozen products, I think that they are restaurants in general. Establishments that serves food.
+The second segment (Segment 1) spends a lot on Detergetns_Paper and Grocery, it looks like this segment is more related to retail stores, because it doesn't spend a lot on food or perishable products.</p>
 
 </div>
 </div>
@@ -20784,8 +20784,8 @@ Sample point 2 predicted to be in Cluster 0
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong>
-Yes, the datapoints were assigned exactly as predicted. Also, as in question 1, the first two observations are assigned to the same cluster, while the third one, is assigned to a different one.</p>
+<p><strong>Answer:</strong></p>
+<p>As described on question 1, the first two samples seem to be related to the food industry, since they spend a lot on fresh and frozen, while the third one looks more like a retailer because of its spending trends. When looking at what cluster does each sample belongs in the cell before, it it consistent with the descriptions.</p>
 
 </div>
 </div>
